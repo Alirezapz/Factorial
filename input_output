@@ -1,0 +1,68 @@
+ORG 100
+
+/ --- input ---
+INP             / AC ? Input
+STA     X       / X ? AC
+
+/ --- ! ---
+BSA     FACTORIAL
+
+/ --- output ---
+LDA     RESULT
+OUT             / Output
+
+HLT
+
+/ -------- Subroutine: FACTORIAL --------
+FACTORIAL, HEX 0000
+
+LDA     ONE
+STA     RESULT
+
+LDA     X
+STA     COUNTER
+
+FACT_LOOP1, LDA     COUNTER
+STA     MULTIPLIER
+
+CLA
+STA     TEMP
+
+LDA     RESULT
+STA     FACT_TMP
+
+FACT_LOOP2, LDA     FACT_TMP
+ADD     TEMP
+STA     TEMP
+
+LDA     MULTIPLIER
+ADD     NEGONE
+STA     MULTIPLIER
+
+LDA     MULTIPLIER
+SZA
+BUN     FACT_LOOP2
+
+LDA     TEMP
+STA     RESULT
+
+LDA     COUNTER
+ADD     NEGONE
+STA     COUNTER
+
+LDA     COUNTER
+SZA
+BUN     FACT_LOOP1
+
+BUN     FACTORIAL I 
+
+/ -------- Data Section --------
+X,          DEC 0
+RESULT,     DEC 0
+COUNTER,    DEC 0
+MULTIPLIER, DEC 0
+FACT_TMP,   DEC 0
+TEMP,       DEC 0
+ONE,        DEC 1
+NEGONE,     DEC -1
+

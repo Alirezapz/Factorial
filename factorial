@@ -1,0 +1,27 @@
+ORG 100
+LDA     ZERO       / AC ? 0
+STA     C          / C ? 0
+LDA     A
+STA     COUNT
+
+LOOP,   LDA     B
+ADD     C
+STA     C
+
+LDA     COUNT
+ADD     NEGONE     / COUNT ? COUNT - 1
+STA     COUNT
+
+LDA     COUNT
+SZA                 / If COUNT == 0 then skip
+BUN     LOOP
+
+HLT
+
+/ --- Data Section ---
+A,      DEC 4       / A = 4
+B,      DEC 3       / B = 3
+C,      DEC 0       / Output: C = A * B
+COUNT,  DEC 0
+ZERO,   DEC 0
+NEGONE, DEC -1

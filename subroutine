@@ -1,0 +1,117 @@
+ORG 100
+/ ---- 5! ----
+LDA     FIVE
+STA     X
+BSA     FACTORIAL
+LDA     RESULT
+STA     F5
+
+/ ---- 4! ----
+LDA     FOUR
+STA     X
+BSA     FACTORIAL
+LDA     RESULT
+STA     F4
+
+/ ---- 3! ----
+LDA     THREE
+STA     X
+BSA     FACTORIAL
+LDA     RESULT
+STA     F3
+
+/ ---- 2! ----
+LDA     TWO
+STA     X
+BSA     FACTORIAL
+LDA     RESULT
+STA     F2
+
+/ ---- total = 5! - 4! + 3! - 2! ----
+LDA     F5
+STA     TOTAL
+
+LDA F4
+CMA
+INC
+ADD TOTAL
+STA TOTAL
+
+
+LDA    F3
+ADD TOTAL
+STA     TOTAL
+
+LDA    F2
+CMA
+INC
+ADD TOTAL
+STA     TOTAL
+
+HLT
+
+/ ---- Subroutine: FACTORIAL ----
+FACTORIAL, HEX 0000
+
+LDA     ONE
+STA     RESULT
+
+LDA     X
+STA     COUNTER
+
+FACT_LOOP1, LDA     COUNTER
+STA     MULTIPLIER
+
+CLA
+STA     TEMP
+
+LDA     RESULT
+STA     FACT_TMP
+
+FACT_LOOP2, LDA     FACT_TMP
+ADD     TEMP
+STA     TEMP
+
+LDA     MULTIPLIER
+ADD     NEGONE
+STA     MULTIPLIER
+
+LDA     MULTIPLIER
+SZA
+BUN     FACT_LOOP2
+
+LDA     TEMP
+STA     RESULT
+
+LDA     COUNTER
+ADD     NEGONE
+STA     COUNTER
+
+LDA     COUNTER
+SZA
+BUN     FACT_LOOP1
+
+BUN     FACTORIAL I     /  subroutine
+
+/ --------- DATA SECTION ---------
+X,          DEC 0
+RESULT,     DEC 0
+COUNTER,    DEC 0
+MULTIPLIER, DEC 0
+FACT_TMP,   DEC 0
+TEMP,       DEC 0
+ONE,        DEC 1
+NEGONE,     DEC -1
+
+FIVE,       DEC 5
+FOUR,       DEC 4
+THREE,      DEC 3
+TWO,        DEC 2
+
+F5,         DEC 0
+F4,         DEC 0
+F3,         DEC 0
+F2,         DEC 0
+
+
+TOTAL,      DEC 0
